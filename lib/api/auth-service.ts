@@ -1,0 +1,45 @@
+import apiClient from './client';
+import type {
+  BaseResponse,
+  LoginRequest,
+  RegisterRequest,
+  ResetPasswordRequest,
+  AuthResponse,
+} from '@/lib/types/auth';
+
+export const authService = {
+  login: async (data: LoginRequest): Promise<AuthResponse> => {
+    const response = await apiClient.post<BaseResponse<AuthResponse>>('/auth/login', data);
+    return response.data.data;
+  },
+
+  register: async (data: RegisterRequest): Promise<AuthResponse> => {
+    const response = await apiClient.post<BaseResponse<AuthResponse>>('/auth/register', data);
+    return response.data.data;
+  },
+
+  resetPassword: async (data: ResetPasswordRequest): Promise<string> => {
+    const response = await apiClient.post<BaseResponse<string>>('/auth/reset-password', data);
+    return response.data.data;
+  },
+
+  logout: async (): Promise<void> => {
+    try {
+      await apiClient.post('/auth/logout');
+    } catch {
+      // Ignore logout errors - we'll clear local state anyway
+    }
+  },
+
+  refreshToken: async (refreshToken: string): Promise<AuthResponse> => {
+    const response = await apiClient.post<BaseResponse<AuthResponse>>('/auth/refresh', { refreshToken });
+    return response.data.data;
+  },
+
+  getMe: async (): Promise<AuthResponse['user']> => {
+    const response = await apiClient.get<BaseResponse<AuthResponse['user']>>('/auth/me');
+    return response.data.data;
+  },
+};
+
+export default authService;
