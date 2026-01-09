@@ -32,7 +32,7 @@ export default function ResetPasswordPage() {
 
   return (
     <div className='min-h-screen flex items-center justify-center'>
-      <div className='w-full max-w-md p-8 border rounded-lg'>
+      <div className='w-full max-w-md p-8'>
         <h1 className='text-2xl font-bold mb-6 text-center'>Reset Password</h1>
 
         {error && (
@@ -46,7 +46,7 @@ export default function ResetPasswordPage() {
             <div className='mb-4 p-3 bg-green-100 text-green-700 rounded'>
               Password reset email sent! Check your inbox.
             </div>
-            <Link href='/login' className='text-blue-600 hover:underline'>
+            <Link href='/login' className='text-blue-800 hover:underline'>
               Back to Login
             </Link>
           </div>
@@ -70,7 +70,7 @@ export default function ResetPasswordPage() {
                   type='email'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className='w-full p-2 border rounded'
+                  className='w-full py-2 px-3 border rounded border-gray-300 focus:border-blue-500 focus:outline-none transition-colors duration-200'
                   required
                 />
               </div>
@@ -78,14 +78,14 @@ export default function ResetPasswordPage() {
               <button
                 type='submit'
                 disabled={isLoading}
-                className='w-full p-2 bg-black text-white rounded hover:bg-gray-800 disabled:opacity-50'
+                className='w-full p-2 bg-[#4C7EDE] text-white rounded hover:bg-sky-600 disabled:opacity-50 cursor-pointer shadow-md'
               >
                 {isLoading ? 'Sending...' : 'Send Reset Link'}
               </button>
             </form>
 
             <div className='mt-4 text-center'>
-              <Link href='/login' className='text-blue-600 hover:underline'>
+              <Link href='/login' className='text-blue-800 hover:underline'>
                 Back to Login
               </Link>
             </div>

@@ -36,3 +36,11 @@ export interface AuthResponse {
   user: User;
   tokens: AuthTokens;
 }
+
+export interface ErrorResponse {
+  timestamp: string;
+  status: number;
+  path: string;
+  error: string;
+  message: string;
+}

@@ -4,7 +4,7 @@ import type {
   LoginRequest,
   RegisterRequest,
   ResetPasswordRequest,
-  AuthResponse,
+  AuthResponse, User
 } from '@/lib/types/auth';
 
 export const authService = {
@@ -13,8 +13,8 @@ export const authService = {
     return response.data.data;
   },
 
-  register: async (data: RegisterRequest): Promise<AuthResponse> => {
-    const response = await apiClient.post<BaseResponse<AuthResponse>>('/auth/register', data);
+  register: async (data: RegisterRequest): Promise<User> => {
+    const response = await apiClient.post<BaseResponse<User>>('/auth/register', data);
     return response.data.data;
   },
 

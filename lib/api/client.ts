@@ -1,5 +1,6 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { useAuthStore } from '@/lib/store/auth-store';
+import { ErrorResponse } from '@/lib/types/auth';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
 
@@ -101,9 +102,12 @@ apiClient.interceptors.response.use(
       } finally {
         isRefreshing = false;
       }
+    } else if (error.response) {
+      const errorMessage = typeof (error.response.data as any).message === 'string' ? (error.response.data as any).message : "An error occurred";
+      return Promise.reject(new Error(errorMessage));
+    } else {
+      return Promise.reject(new Error(error.message))
     }
-
-    return Promise.reject(error);
   }
 );
 
