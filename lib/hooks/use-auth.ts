@@ -27,8 +27,8 @@ export function useAuth() {
     setLoading(true);
     try {
       const response = await authService.register(data);
-      setAuth(response.user, response.tokens);
-      router.push('/');
+      // setAuth(response.user, response.tokens);
+      router.push('/login');
       return { success: true };
     } catch (error) {
       return { success: false, error: error instanceof Error ? error.message : 'Registration failed' };
@@ -50,7 +50,6 @@ export function useAuth() {
   };
 
   const logout = async () => {
-    await authService.logout();
     clearAuth();
     router.push('/login');
   };

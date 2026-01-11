@@ -23,14 +23,6 @@ export const authService = {
     return response.data.data;
   },
 
-  logout: async (): Promise<void> => {
-    try {
-      await apiClient.post('/auth/logout');
-    } catch {
-      // Ignore logout errors - we'll clear local state anyway
-    }
-  },
-
   refreshToken: async (refreshToken: string): Promise<AuthResponse> => {
     const response = await apiClient.post<BaseResponse<AuthResponse>>('/auth/refresh', { refreshToken });
     return response.data.data;
