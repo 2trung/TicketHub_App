@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { MenuItem, Select } from '@mui/material'
-import { LuNavigation } from 'react-icons/lu'
+import { IoNavigateOutline } from 'react-icons/io5'
 import { IoMenu } from 'react-icons/io5'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import { DateRangePicker } from './ui/date-range-picker'
+import { MobileMenu } from './ui/mobile-menu'
 import Link from 'next/link'
 
 export const Homepage = () => {
@@ -11,6 +12,7 @@ export const Homepage = () => {
   const [location, setLocation] = useState<string>(locations[0])
   const [startDate, setStartDate] = useState<Date | null>(null)
   const [endDate, setEndDate] = useState<Date | null>(null)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   return (
     <div className='min-h-screen bg-carbon px-5 py-4 gap-4 flex flex-col'>
       <div className='bg-alabaster py-4 px-6 flex items-center justify-between gap-3.5 rounded-4xl'>
@@ -31,7 +33,7 @@ export const Homepage = () => {
                     className='bg-carbon p-3 rounded-4xl cursor-pointer'
                     onClick={() => {}}
                   >
-                    <LuNavigation className='text-alabaster' size={24} />
+                    <IoNavigateOutline className='text-alabaster' size={24} />
                   </div>
                 }
                 endAdornment={null}
@@ -94,10 +96,28 @@ export const Homepage = () => {
         </button>
 
         {/* Hamburger menu for mobile */}
-        <button className='p-3 bg-flamingo rounded-4xl cursor-pointer md:hidden flex transition-all duration-300 hover:rounded-xl'>
+        <button
+          className='p-3 bg-flamingo rounded-4xl cursor-pointer md:hidden flex transition-all duration-300 hover:rounded-xl'
+          onClick={() => setIsMobileMenuOpen(true)}
+        >
           <IoMenu className='text-alabaster' size={24} />
         </button>
       </div>
+
+      {/* Mobile Menu */}
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        location={location}
+        locations={locations}
+        onLocationChange={setLocation}
+        startDate={startDate}
+        endDate={endDate}
+        onDateChange={(start, end) => {
+          setStartDate(start)
+          setEndDate(end)
+        }}
+      />
 
       <div className='h-64 bg-alabaster rounded-4xl' />
       <div className='flex gap-4'>

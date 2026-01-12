@@ -26,6 +26,7 @@ import {
   isBefore,
   isAfter,
 } from 'date-fns'
+import { THEME } from '@/lib/theme'
 
 interface DateRangePickerProps {
   startDate: Date | null
@@ -136,15 +137,15 @@ export const DateRangePicker = ({
     }
 
     return (
-      <Box sx={{ width: 280 }}>
+      <Box sx={{ width: 280, flexShrink: 0 }}>
         {/* Month header */}
         <Typography
           sx={{
             textAlign: 'center',
-            fontWeight: 500,
+            fontWeight: 600,
             fontSize: '1rem',
             mb: 2,
-            color: '#1a1a1a',
+            color: THEME.carbon,
           }}
         >
           {format(month, 'MMM yyyy')}
@@ -165,8 +166,8 @@ export const DateRangePicker = ({
               sx={{
                 textAlign: 'center',
                 fontSize: '0.75rem',
-                fontWeight: 500,
-                color: '#666',
+                fontWeight: 600,
+                color: THEME.lightBlack,
                 py: 0.5,
               }}
             >
@@ -206,15 +207,20 @@ export const DateRangePicker = ({
                   borderRadius: isStart || isEnd ? '50%' : 0,
                   backgroundColor:
                     isStart || isEnd
-                      ? '#1976d2'
+                      ? THEME.flamingo
                       : inRange
-                      ? '#e3f2fd'
+                      ? THEME.flamingoLight
                       : 'transparent',
-                  color: isStart || isEnd ? '#fff' : '#333',
+                  color: isStart || isEnd ? '#fff' : THEME.carbon,
                   fontSize: '0.875rem',
+                  fontWeight: isStart || isEnd ? 600 : 400,
                   position: 'relative',
+                  transition: 'all 0.2s ease',
                   '&:hover': {
-                    backgroundColor: isStart || isEnd ? '#1565c0' : '#e3f2fd',
+                    backgroundColor:
+                      isStart || isEnd
+                        ? THEME.flamingoHover
+                        : THEME.flamingoLight,
                   },
                   ...(isToday &&
                     !isStart &&
@@ -227,7 +233,7 @@ export const DateRangePicker = ({
                         transform: 'translateX(-50%)',
                         width: 16,
                         height: 2,
-                        backgroundColor: '#1976d2',
+                        backgroundColor: THEME.flamingo,
                         borderRadius: 1,
                       },
                     }),
@@ -257,24 +263,33 @@ export const DateRangePicker = ({
           alignItems: 'center',
           gap: 0.5,
           cursor: 'pointer',
-          border: '1px solid rgb(45 45 45)',
+          border: `1px solid ${THEME.lightBlack}`,
           borderRadius: '32px',
-          padding: '3px 8px 3px 3px',
+          padding: '3px 10px 3px 3px',
           minWidth: 220,
           backgroundColor: 'transparent',
-          '&:hover': {
-            borderColor: '#1976d2',
-          },
         }}
       >
-        <div className='bg-light-black p-3 rounded-4xl'>
+        <div className='bg-carbon p-3 rounded-4xl'>
           <CalendarIcon className='text-alabaster' size={24} />
         </div>
-        <Typography sx={{ color: startDate ? '#1a1a1a' : '#999' }}>
+        <Typography
+          sx={{
+            fontSize: startDate ? '1rem' : '0.875rem',
+            color: startDate ? THEME.carbon : THEME.lightBlack,
+          }}
+        >
           {startDate ? formatDisplayDate(startDate) : placeholder.start}
         </Typography>
-        <Typography sx={{ fontSize: '0.875rem', color: '#666' }}>-</Typography>
-        <Typography sx={{ color: endDate ? '#1a1a1a' : '#999' }}>
+        <Typography sx={{ fontSize: '0.875rem', color: THEME.lightBlack }}>
+          -
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: endDate ? '1rem' : '0.875rem',
+            color: endDate ? THEME.carbon : THEME.lightBlack,
+          }}
+        >
           {endDate ? formatDisplayDate(endDate) : placeholder.end}
         </Typography>
       </Box>
@@ -295,17 +310,27 @@ export const DateRangePicker = ({
           paper: {
             sx: {
               mt: 1,
-              borderRadius: 2,
-              boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+              borderRadius: '24px',
+              boxShadow: '0 8px 32px rgba(35, 35, 35, 0.2)',
+              backgroundColor: THEME.alabaster,
+              maxWidth: '95vw',
+              maxHeight: '90vh',
             },
           },
         }}
       >
         <Box sx={{ p: 3, width: 'auto' }}>
           {/* Date inputs */}
-          <Box sx={{ display: 'flex', gap: 3, mb: 3 }}>
-            <Box>
-              <Typography sx={{ fontSize: '0.75rem', color: '#666', mb: 0.5 }}>
+          <Box sx={{ display: 'flex', gap: 3, mb: 3, flexWrap: 'wrap' }}>
+            <Box sx={{ flex: '1 1 150px', minWidth: 150 }}>
+              <Typography
+                sx={{
+                  fontSize: '0.75rem',
+                  color: THEME.lightBlack,
+                  mb: 0.5,
+                  fontWeight: 600,
+                }}
+              >
                 Start Date
               </Typography>
               <TextField
@@ -317,15 +342,32 @@ export const DateRangePicker = ({
                 }}
                 sx={{
                   '& .MuiOutlinedInput-root': {
-                    borderRadius: 1,
+                    borderRadius: '16px',
+                    backgroundColor: '#fff',
+                    '& fieldset': {
+                      borderColor: THEME.lightBlack,
+                    },
+                    '&:hover fieldset': {
+                      borderColor: THEME.flamingo,
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: THEME.flamingo,
+                    },
                   },
-                  width: 180,
+                  width: '100%',
                 }}
               />
             </Box>
-            <Box>
-              <Typography sx={{ fontSize: '0.75rem', color: '#666', mb: 0.5 }}>
-                End date
+            <Box sx={{ flex: '1 1 150px', minWidth: 150 }}>
+              <Typography
+                sx={{
+                  fontSize: '0.75rem',
+                  color: THEME.lightBlack,
+                  mb: 0.5,
+                  fontWeight: 600,
+                }}
+              >
+                End Date
               </Typography>
               <TextField
                 size='small'
@@ -336,24 +378,67 @@ export const DateRangePicker = ({
                 }}
                 sx={{
                   '& .MuiOutlinedInput-root': {
-                    borderRadius: 1,
+                    borderRadius: '16px',
+                    backgroundColor: '#fff',
+                    '& fieldset': {
+                      borderColor: THEME.lightBlack,
+                    },
+                    '&:hover fieldset': {
+                      borderColor: THEME.flamingo,
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: THEME.flamingo,
+                    },
                   },
-                  width: 180,
+                  width: '100%',
                 }}
               />
             </Box>
           </Box>
 
-          {/* Calendars */}
-          <Box sx={{ display: 'flex', gap: 4, position: 'relative' }}>
+          {/* Calendars with horizontal scroll for mobile */}
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 4,
+              position: 'relative',
+              overflowX: 'auto',
+              pb: 1,
+              mx: -1,
+              px: 1,
+              '&::-webkit-scrollbar': {
+                height: 6,
+              },
+              '&::-webkit-scrollbar-track': {
+                backgroundColor: 'rgba(45, 45, 45, 0.1)',
+                borderRadius: 3,
+              },
+              '&::-webkit-scrollbar-thumb': {
+                backgroundColor: THEME.flamingo,
+                borderRadius: 3,
+                '&:hover': {
+                  backgroundColor: THEME.flamingoHover,
+                },
+              },
+            }}
+          >
             {/* Left navigation */}
             <IconButton
               onClick={handlePrevMonth}
               sx={{
-                position: 'absolute',
-                left: -8,
-                top: 0,
-                color: '#1976d2',
+                position: 'sticky',
+                left: 0,
+                alignSelf: 'center',
+                zIndex: 1,
+                width: 40,
+                height: 40,
+                minWidth: 40,
+                color: THEME.flamingo,
+                backgroundColor: THEME.flamingoLight,
+                borderRadius: '50%',
+                '&:hover': {
+                  backgroundColor: THEME.flamingoLight,
+                },
               }}
             >
               <ChevronLeftIcon />
@@ -369,10 +454,19 @@ export const DateRangePicker = ({
             <IconButton
               onClick={handleNextMonth}
               sx={{
-                position: 'absolute',
-                right: -8,
-                top: 0,
-                color: '#1976d2',
+                position: 'sticky',
+                right: 0,
+                alignSelf: 'center',
+                zIndex: 1,
+                width: 40,
+                height: 40,
+                minWidth: 40,
+                color: THEME.flamingo,
+                backgroundColor: THEME.flamingoLight,
+                borderRadius: '50%',
+                '&:hover': {
+                  backgroundColor: THEME.flamingoLight,
+                },
               }}
             >
               <ChevronRightIcon />
@@ -380,13 +474,24 @@ export const DateRangePicker = ({
           </Box>
 
           {/* Action buttons */}
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              mt: 3,
+              flexWrap: 'wrap',
+              gap: 2,
+            }}
+          >
             <Button
               onClick={handleReset}
               sx={{
-                color: '#1976d2',
+                color: THEME.flamingo,
                 textTransform: 'none',
-                fontWeight: 500,
+                fontWeight: 600,
+                '&:hover': {
+                  backgroundColor: THEME.flamingoLight,
+                },
               }}
             >
               Reset
@@ -397,10 +502,15 @@ export const DateRangePicker = ({
                 variant='outlined'
                 sx={{
                   textTransform: 'none',
-                  borderColor: '#1976d2',
-                  color: '#1976d2',
-                  borderRadius: 1,
+                  borderColor: THEME.lightBlack,
+                  color: THEME.carbon,
+                  borderRadius: '24px',
                   px: 3,
+                  fontWeight: 500,
+                  '&:hover': {
+                    borderColor: THEME.carbon,
+                    backgroundColor: 'rgba(35, 35, 35, 0.05)',
+                  },
                 }}
               >
                 Cancel
@@ -410,11 +520,14 @@ export const DateRangePicker = ({
                 variant='contained'
                 sx={{
                   textTransform: 'none',
-                  backgroundColor: '#1976d2',
-                  borderRadius: 1,
+                  backgroundColor: THEME.flamingo,
+                  borderRadius: '24px',
                   px: 3,
+                  fontWeight: 600,
+                  boxShadow: 'none',
                   '&:hover': {
-                    backgroundColor: '#1565c0',
+                    backgroundColor: THEME.flamingoHover,
+                    boxShadow: 'none',
                   },
                 }}
               >
